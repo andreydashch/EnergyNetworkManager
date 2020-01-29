@@ -40,8 +40,9 @@ import java.util.stream.Collectors;
  * User: Andrey Dashchyk
  */
 public class NetworkIterator<E extends NetworkNodePointer> implements Iterator<E> {
-    List<Node<E>> currentLayer;
-    int index;
+    private List<Node<E>> currentLayer;
+    private boolean ifLayerAllowChild;
+    private int index;
 
     public NetworkIterator(Node<E> root) {
         currentLayer = new ArrayList<>();
@@ -61,12 +62,12 @@ public class NetworkIterator<E extends NetworkNodePointer> implements Iterator<E
     }
 
     private void updateCurrentLayer() {
-        boolean layerAllowChild = currentLayer.stream()
+        currentLayer.stream()
                 .map(node -> node.getValue().allowChild())
                 .reduce((x, y) -> x || y)
-                .get();
+                .ifPresent(this::setIfLayerAllowChild);
 
-        if (layerAllowChild) {
+        if (ifLayerAllowChild) {
             index = 0;
             currentLayer = currentLayer.stream()
                     .flatMap(node -> node.getChildren().stream())
@@ -74,8 +75,16 @@ public class NetworkIterator<E extends NetworkNodePointer> implements Iterator<E
         }
     }
 
+    private void  setIfLayerAllowChild(boolean ifLayerAllowChild) {
+        this.ifLayerAllowChild = ifLayerAllowChild;
+    }
+
     @Override
     public E next() {
         return currentLayer.get(index++).getValue();
+    }
+
+    public Node<E> nextNode() {
+        return currentLayer.get(index++);
     }
 }

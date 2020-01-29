@@ -129,11 +129,7 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, It
 
     private  Optional<E> findNode(Long id) {
 
-        var networkIterator = new NetworkIterator<>(root) {
-            public Node<E> nextNode() {
-                return currentLayer.get(index++);
-            }
-        };
+        NetworkIterator<E> networkIterator = new NetworkIterator<>(root) ;
 
         while((networkIterator.hasNext())) {
             present = networkIterator.nextNode();
@@ -148,7 +144,12 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, It
 
     @Override
     public Iterator<E> iterator() {
-        return new NetworkIterator<>(root);
+        return new NetworkIterator<>(root){
+            @Override
+            public Node<E> nextNode() {
+                return null;
+            }
+        };
     }
 }
 
