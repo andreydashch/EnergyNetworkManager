@@ -28,29 +28,54 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.controller;
+package ua.energynetwork.manager.entity.collection;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ua.energynetwork.manager.entity.NetworkHierarchy;
-import ua.energynetwork.manager.entity.service.NetworkHierarchyService;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Date: 28.01.2020
+ * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-@RestController
-public class PageController {
-    private final NetworkHierarchyService networkHierarchyService;
+public class NetworkIterator<E extends NetworkNodePointer> implements Iterator<E> {
+    List<Node<E>> currentLayer;
+    int index;
 
-    public PageController(NetworkHierarchyService networkHierarchyService) {
-        this.networkHierarchyService = networkHierarchyService;
+    public NetworkIterator(Node<E> root) {
+        currentLayer = new ArrayList<>();
+        currentLayer.add(root);
     }
 
-    @RequestMapping("/networks_list")
-    public List<NetworkHierarchy> mainPage() {
-        return networkHierarchyService.findAll();
+
+    @Override
+    public boolean hasNext() {
+        boolean lastChild = index == currentLayer.size();
+
+        if (lastChild) {
+            updateCurrentLayer();
+        }
+
+        return !lastChild;
+    }
+
+    private void updateCurrentLayer() {
+        boolean layerAllowChild = currentLayer.stream()
+                .map(node -> node.getValue().allowChild())
+                .reduce((x, y) -> x || y)
+                .get();
+
+        if (layerAllowChild) {
+            index = 0;
+            currentLayer = currentLayer.stream()
+                    .flatMap(node -> node.getChildren().stream())
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public E next() {
+        return currentLayer.get(index++).getValue();
     }
 }

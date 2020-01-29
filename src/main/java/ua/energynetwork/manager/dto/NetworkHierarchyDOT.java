@@ -28,29 +28,16 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.controller;
+package ua.energynetwork.manager.dto;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ua.energynetwork.manager.entity.NetworkHierarchy;
-import ua.energynetwork.manager.entity.service.NetworkHierarchyService;
-
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
- * Date: 28.01.2020
+ * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-@RestController
-public class PageController {
-    private final NetworkHierarchyService networkHierarchyService;
-
-    public PageController(NetworkHierarchyService networkHierarchyService) {
-        this.networkHierarchyService = networkHierarchyService;
-    }
-
-    @RequestMapping("/networks_list")
-    public List<NetworkHierarchy> mainPage() {
-        return networkHierarchyService.findAll();
-    }
+public class NetworkHierarchyDOT {
+    @NotEmpty
+    List<NetworkNodeDTO> networkHierarchy;
 }

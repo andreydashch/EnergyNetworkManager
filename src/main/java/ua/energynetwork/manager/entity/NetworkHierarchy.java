@@ -28,29 +28,32 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.controller;
+package ua.energynetwork.manager.entity;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ua.energynetwork.manager.entity.NetworkHierarchy;
-import ua.energynetwork.manager.entity.service.NetworkHierarchyService;
-
-import java.util.List;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import ua.energynetwork.manager.entity.collection.Network;
 
 /**
- * Date: 28.01.2020
+ * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-@RestController
-public class PageController {
-    private final NetworkHierarchyService networkHierarchyService;
+@Document
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class NetworkHierarchy {
+    @Id
+    private String id;
+    private Network<NetworkNode> network;
 
-    public PageController(NetworkHierarchyService networkHierarchyService) {
-        this.networkHierarchyService = networkHierarchyService;
+    public Long getName() {
+        return network.getRoot().getId();
     }
 
-    @RequestMapping("/networks_list")
-    public List<NetworkHierarchy> mainPage() {
-        return networkHierarchyService.findAll();
+    public void addNode(Long parentId, NetworkNode networkNode) {
+        network.addChildToNode(parentId, networkNode);
     }
 }

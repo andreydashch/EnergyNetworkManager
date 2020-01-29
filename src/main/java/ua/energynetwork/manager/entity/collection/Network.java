@@ -31,6 +31,7 @@
 package ua.energynetwork.manager.entity.collection;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 /**
  * Date: 29.01.2020
@@ -44,6 +45,10 @@ public interface Network<E> {
 
     E getRoot();
     E getPresent();
-    E goToNode(Long Id);
+    Optional<E> goToChild(Long Id);
     HashSet<E> getChildren();
+
+    boolean addChildToNode(Long parentId, E networkNode);
+    Optional<E> goToNode(Long Id);
 }
+

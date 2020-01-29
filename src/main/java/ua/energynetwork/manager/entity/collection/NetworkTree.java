@@ -33,14 +33,13 @@ package ua.energynetwork.manager.entity.collection;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Date: 28.01.2020
  * User: Andrey Dashchyk
  */
-public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
+public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, Iterable<E>{
     private Node<E> root;
     private Node<E> present;
 
@@ -88,12 +87,12 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
     }
 
     @Override
-    public E goToNode(Long Id) {
+    public Optional<E> goToChild(Long Id) {
         Optional<Node<E>> child = present.findChild(Id);
 
         child.ifPresent(node -> present = node);
 
-        return present.getValue();
+        return Optional.ofNullable(present.getValue());
     }
 
     @Override
@@ -105,6 +104,51 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
         }
 
         return childrenValues;
+    }
+
+    @Override
+    public boolean addChildToNode(Long parentId, E networkNode) {
+        goToNode(parentId).ifPresent(node -> addChild(networkNode));
+
+        return present.getValue().getId().equals(parentId);
+    }
+
+    @Override
+    public Optional<E> goToNode(Long id) {
+        Optional<E> searchedNode;
+        Node<E> presentTemp = present;
+
+        searchedNode = findNode(id);
+
+        if(searchedNode.isEmpty()) {
+            present = presentTemp;
+        }
+
+        return searchedNode;
+    }
+
+    private  Optional<E> findNode(Long id) {
+
+        var networkIterator = new NetworkIterator<>(root) {
+            public Node<E> nextNode() {
+                return currentLayer.get(index++);
+            }
+        };
+
+        while((networkIterator.hasNext())) {
+            present = networkIterator.nextNode();
+
+            if(present.getValue().getId().equals(id)) {
+                return Optional.of(present.getValue());
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new NetworkIterator<>(root);
     }
 }
 
