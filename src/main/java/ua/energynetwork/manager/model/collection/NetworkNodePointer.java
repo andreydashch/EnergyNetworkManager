@@ -28,27 +28,13 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.entity.collection;
-
-import java.util.HashSet;
-import java.util.Optional;
+package ua.energynetwork.manager.model.collection;
 
 /**
  * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-public interface Network<E> {
-    void create(E root);
-    void delNetwork();
-    boolean delChild(E child);
-    boolean addChild(E child);
-
-    E getRoot();
-    E getPresent();
-    Optional<E> goToChild(Long Id);
-    HashSet<E> getChildren();
-
-    boolean addChildToNode(Long parentId, E networkNode);
-    Optional<E> goToNode(Long Id);
+public interface NetworkNodePointer {
+    Long getId();
+    boolean allowChild();
 }
-

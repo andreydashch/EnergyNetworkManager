@@ -30,13 +30,11 @@
  */
 package ua.energynetwork.manager.persistence;
 
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import ua.energynetwork.manager.entity.NetworkHierarchy;
+import ua.energynetwork.manager.model.entity.NetworkHierarchy;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Date: 29.01.2020

@@ -28,12 +28,12 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.entity.service;
+package ua.energynetwork.manager.model.service;
 
 import org.springframework.stereotype.Service;
 import ua.energynetwork.manager.dto.NetworkNodeDTO;
-import ua.energynetwork.manager.entity.NetworkHierarchy;
-import ua.energynetwork.manager.entity.NetworkNode;
+import ua.energynetwork.manager.model.entity.NetworkHierarchy;
+import ua.energynetwork.manager.model.entity.NetworkNode;
 import ua.energynetwork.manager.persistence.EnergyNetworkManagerRepository;
 
 import java.util.List;

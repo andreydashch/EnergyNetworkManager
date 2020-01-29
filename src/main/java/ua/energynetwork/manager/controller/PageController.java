@@ -32,8 +32,8 @@ package ua.energynetwork.manager.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.energynetwork.manager.entity.NetworkHierarchy;
-import ua.energynetwork.manager.entity.service.NetworkHierarchyService;
+import ua.energynetwork.manager.model.entity.NetworkHierarchy;
+import ua.energynetwork.manager.model.service.NetworkHierarchyService;
 
 import java.util.List;
 

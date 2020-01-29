@@ -28,30 +28,30 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.entity;
-
-import lombok.*;
-import ua.energynetwork.manager.entity.collection.NetworkNodePointer;
-
-import java.util.HashMap;
+package ua.energynetwork.manager.model.entity;
 
 /**
  * Date: 28.01.2020
  * User: Andrey Dashchyk
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class NetworkNode implements NetworkNodePointer {
-    private Long id;
-    private NodeType type;
-    private String name;
-    private String description;
-    private HashMap<String, String> params;
+public enum NodeType {
+    NETWORK,
+    SUBSTATION,
+    TRANSFORMER,
+    FEEDER,
+    RESOURCE;
 
-    @Override
-    public boolean allowChild() {
-        return type.isAllowChild();
+    private boolean allowChild;
+
+    static {
+        NETWORK.allowChild = true;
+        SUBSTATION.allowChild = true;
+        TRANSFORMER.allowChild = true;
+        FEEDER.allowChild = true;
+        RESOURCE.allowChild = false;
+    }
+
+    public boolean isAllowChild() {
+        return this.allowChild;
     }
 }

@@ -28,32 +28,27 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.entity;
+package ua.energynetwork.manager.model.collection;
 
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import ua.energynetwork.manager.entity.collection.Network;
+import java.util.HashSet;
+import java.util.Optional;
 
 /**
  * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-@Document
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class NetworkHierarchy {
-    @Id
-    private String id;
-    private Network<NetworkNode> network;
+public interface Network<E> {
+    void create(E root);
+    void delNetwork();
+    boolean delChild(E child);
+    boolean addChild(E child);
 
-    public Long getName() {
-        return network.getRoot().getId();
-    }
+    E getRoot();
+    E getPresent();
+    Optional<E> goToChild(Long Id);
+    HashSet<E> getChildren();
 
-    public void addNode(Long parentId, NetworkNode networkNode) {
-        network.addChildToNode(parentId, networkNode);
-    }
+    boolean addChildToNode(Long parentId, E networkNode);
+    Optional<E> goToNode(Long Id);
 }
+

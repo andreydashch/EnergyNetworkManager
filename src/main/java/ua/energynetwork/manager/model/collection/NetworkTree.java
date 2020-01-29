@@ -28,7 +28,7 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.entity.collection;
+package ua.energynetwork.manager.model.collection;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -31,7 +31,7 @@
 package ua.energynetwork.manager.dto;
 
 import lombok.*;
-import ua.energynetwork.manager.entity.NodeType;
+import ua.energynetwork.manager.model.entity.NodeType;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
