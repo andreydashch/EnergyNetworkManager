@@ -44,10 +44,6 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
     private Node<E> root;
     private Node<E> present;
 
-    private NetworkTree() {
-        // Empty
-    }
-
     @Override
     public void create(E root) {
         if (this.root == null) {
