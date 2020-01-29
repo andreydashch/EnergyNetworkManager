@@ -35,6 +35,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.energynetwork.manager.model.collection.Network;
 
+import java.util.Optional;
+
 /**
  * Date: 29.01.2020
  * User: Andrey Dashchyk
@@ -49,11 +51,22 @@ public class NetworkHierarchy {
     private String id;
     private Network<NetworkNode> network;
 
-    public Long getName() {
+    public NetworkHierarchy(NetworkNode root) {
+        network.create(root);
+    }
+
+    public Long getRootId() {
         return network.getRoot().getId();
     }
 
     public void addNode(Long parentId, NetworkNode networkNode) {
         network.addChildToNode(parentId, networkNode);
+    }
+
+    public Optional<NetworkNode> getNode(Long id) { return network.findNode(id); }
+
+    public void delNode(Long parentId, Long id) {
+        network.findNode(parentId);
+        network.delChild(id);
     }
 }

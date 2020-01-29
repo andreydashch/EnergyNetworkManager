@@ -37,7 +37,7 @@ import java.util.List;
  * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-public class NetworkHierarchyDOT {
+public class NetworkHierarchyDTO {
     @NotEmpty
-    List<NetworkNodeDTO> networkHierarchy;
+    public List<NetworkNodeDTO> networkHierarchy;
 }

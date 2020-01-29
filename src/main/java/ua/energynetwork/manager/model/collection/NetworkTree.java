@@ -39,7 +39,7 @@ import java.util.*;
  * Date: 28.01.2020
  * User: Andrey Dashchyk
  */
-public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, Iterable<E>{
+public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
     private Node<E> root;
     private Node<E> present;
 
@@ -60,8 +60,8 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, It
     }
 
     @Override
-    public boolean delChild(E child) {
-        return present.delChild(child);
+    public boolean delChild(Long id) {
+        return present.delChild(id);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, It
         return searchedNode;
     }
 
-    private  Optional<E> findNode(Long id) {
+    public Optional<E> findNode(Long id) {
 
         NetworkIterator<E> networkIterator = new NetworkIterator<>(root) ;
 
@@ -169,10 +169,10 @@ class Node<E extends NetworkNodePointer> {
         children.add(child);
     }
 
-    boolean delChild(E childValue) {
-        Optional<Node<E>> child = findChild(childValue.getId());
+    boolean delChild(Long id) {
+        Optional<Node<E>> child = findChild(id);
 
-        child.ifPresent(node -> node.parent.children.remove(node));
+        child.ifPresent(node -> children.remove(node));
 
         return child.isPresent();
     }

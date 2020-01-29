@@ -37,10 +37,10 @@ import java.util.Optional;
  * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-public interface Network<E> {
+public interface Network<E> extends Iterable<E> {
     void create(E root);
     void delNetwork();
-    boolean delChild(E child);
+
     boolean addChild(E child);
 
     E getRoot();
@@ -49,6 +49,8 @@ public interface Network<E> {
     HashSet<E> getChildren();
 
     boolean addChildToNode(Long parentId, E networkNode);
+    Optional<E> findNode(Long id);
     Optional<E> goToNode(Long Id);
+    boolean delChild(Long id);
 }
 

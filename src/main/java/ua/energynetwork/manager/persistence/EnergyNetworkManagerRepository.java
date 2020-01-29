@@ -42,5 +42,9 @@ import java.util.List;
  */
 @Repository
 public interface EnergyNetworkManagerRepository extends MongoRepository<NetworkHierarchy, String> {
-    List<NetworkHierarchy> findByName(Long name);
+
+    List<NetworkHierarchy> findByRootId(Long rootId);
+
+    void deleteByRootId(Long id);
+
 }
