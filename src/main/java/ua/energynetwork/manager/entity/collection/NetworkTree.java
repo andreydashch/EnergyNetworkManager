@@ -91,7 +91,7 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
     public E goToNode(Long Id) {
         Optional<Node<E>> child = present.findChild(Id);
 
-        child.ifPresent(eNode -> present = eNode);
+        child.ifPresent(node -> present = node);
 
         return present.getValue();
     }
@@ -127,13 +127,9 @@ class Node<E extends NetworkNodePointer> {
     boolean delChild(E childValue) {
         Optional<Node<E>> child = findChild(childValue.getId());
 
-        child.ifPresent(this::delFromChildren);
+        child.ifPresent(node -> node.parent.children.remove(node));
 
         return child.isPresent();
-    }
-
-    private void delFromChildren(Node<E> child) {
-        child.parent.children.remove(child);
     }
 
     Optional<Node<E>> findChild(Long id) {
