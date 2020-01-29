@@ -42,10 +42,15 @@ import java.util.HashMap;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NetworkNode {
+public class NetworkNode implements NetworkNodePointer {
     private Long id;
     private NodeType type;
     private String name;
     private String description;
     private HashMap<String, String> params;
+
+    @Override
+    public boolean allowChild() {
+        return false;
+    }
 }

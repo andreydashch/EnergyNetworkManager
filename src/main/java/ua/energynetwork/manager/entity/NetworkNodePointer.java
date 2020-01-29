@@ -30,46 +30,11 @@
  */
 package ua.energynetwork.manager.entity;
 
-import java.util.HashSet;
-
 /**
- * Date: 28.01.2020
+ * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
-public class NetworkList implements Network<NetworkNode> {
-
-    @Override
-    public void create(NetworkNode root) {
-
-    }
-
-    @Override
-    public void delNetwork() {
-
-    }
-
-    @Override
-    public void delChild(Long parentId, NetworkNode child) {
-
-    }
-
-    @Override
-    public boolean addChild(Long parentId, NetworkNode child) {
-        return false;
-    }
-
-    @Override
-    public NetworkNode getRoot() {
-        return null;
-    }
-
-    @Override
-    public NetworkNode getNode(Long Id) {
-        return null;
-    }
-
-    @Override
-    public HashSet<NetworkNode> getChildren(Long Id) {
-        return null;
-    }
+public interface NetworkNodePointer {
+    Long getId();
+    boolean allowChild();
 }

@@ -39,10 +39,10 @@ import java.util.HashSet;
 public interface Network<E> {
     void create(E root);
     void delNetwork();
-    void delChild(Long parentId, E child);
-    boolean addChild(Long parentId, E child);
+    boolean delChild(E child);
+    boolean addChild(E child);
 
-    E getRoot();
-    E getNode(Long Id);
-    HashSet<E> getChildren(Long Id);
+    E goToRoot();
+    E goToChild(Long Id);
+    HashSet<E> getChildren();
 }
