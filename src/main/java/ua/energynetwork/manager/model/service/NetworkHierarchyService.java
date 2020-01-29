@@ -30,11 +30,10 @@
  */
 package ua.energynetwork.manager.model.service;
 
+import org.apache.logging.log4j.*;
+import ua.energynetwork.manager.dto.*;
+import ua.energynetwork.manager.model.entity.*;
 import org.springframework.stereotype.Service;
-import ua.energynetwork.manager.dto.NetworkHierarchyDTO;
-import ua.energynetwork.manager.dto.NetworkNodeDTO;
-import ua.energynetwork.manager.model.entity.NetworkHierarchy;
-import ua.energynetwork.manager.model.entity.NetworkNode;
 import ua.energynetwork.manager.persistence.EnergyNetworkManagerRepository;
 
 import java.util.ArrayList;
@@ -42,12 +41,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * Date: 29.01.2020
  * User: Andrey Dashchyk
  */
 @Service
 public class NetworkHierarchyService {
+    Logger logger = LogManager.getLogger();
     private final EnergyNetworkManagerRepository energyNetworkManagerRepository;
 
     public NetworkHierarchyService(EnergyNetworkManagerRepository energyNetworkManagerRepository) {
@@ -55,14 +56,17 @@ public class NetworkHierarchyService {
     }
 
     public List<NetworkHierarchy> findAll() {
+        logger.info("ServiceRunFindAllNetworks");
         return energyNetworkManagerRepository.findAll();
     }
 
     public List<NetworkHierarchy> findByRootId(Long rootId) {
+        logger.info("ServiceRunFindByRootId");
         return energyNetworkManagerRepository.findByRootId(rootId);
     }
 
     public List<NetworkNode> findNetworkNodes(Long rootId, Long nodeId) {
+        logger.info("ServiceRunFindNetworkNodes");
         List<NetworkNode> networkNodes = new ArrayList<>();
         List<NetworkHierarchy> networkHierarchies = findByRootId(rootId);
 
@@ -73,9 +77,13 @@ public class NetworkHierarchyService {
         return networkNodes;
     }
 
-    public void delNetworks(Long rootId) { energyNetworkManagerRepository.deleteByRootId(rootId); }
+    public void delNetworks(Long rootId) {
+        logger.info("ServiceRunDelNetworks");
+        energyNetworkManagerRepository.deleteByRootId(rootId);
+    }
 
     public void addNodeInNetwork(NetworkNodeDTO networkNodeDTO) {
+        logger.info("ServiceRunAddNodeInNetworks");
         NetworkNode networkNode = createNetworkNode(networkNodeDTO);
 
         List<NetworkHierarchy> networkHierarchies = findByRootId(networkNodeDTO.getRootId());
@@ -86,6 +94,7 @@ public class NetworkHierarchyService {
     }
 
     private NetworkNode createNetworkNode(NetworkNodeDTO networkNodeDTO) {
+        logger.info("ServiceRunCreatNetworkNode");
         return NetworkNode.builder()
                 .id(networkNodeDTO.getId())
                 .type(networkNodeDTO.getType())
@@ -96,6 +105,7 @@ public class NetworkHierarchyService {
     }
 
     public void creatNetwork(NetworkNodeDTO rootDTO) {
+        logger.info("ServiceRunCreatNetwork");
         NetworkNode root = createNetworkNode(rootDTO);
 
         NetworkHierarchy networkHierarchy = new NetworkHierarchy(root);
@@ -104,6 +114,7 @@ public class NetworkHierarchyService {
     }
 
     public void creatWholeNetwork(NetworkHierarchyDTO networkHierarchyDTO) {
+        logger.info("ServiceRunCreatWholeNetwork");
         NetworkNode root = createNetworkNode(networkHierarchyDTO.networkHierarchy.get(0));
         NetworkHierarchy networkHierarchy = new NetworkHierarchy(root);
 
@@ -115,6 +126,7 @@ public class NetworkHierarchyService {
     }
 
     public void delNodeInNetwork(Long rootId, Long parentId, Long id) {
+        logger.info("ServiceRunDelNodeInNetwork");
         List<NetworkHierarchy> networkHierarchies = findByRootId(rootId);
 
         networkHierarchies.forEach(networkHierarchy -> networkHierarchy.delNode(parentId, id));
@@ -123,6 +135,7 @@ public class NetworkHierarchyService {
     }
 
     public boolean verifyIfConsistent(Long rootId) {
+        logger.info("ServiceRunVerifyIfConsistent");
         boolean consistent = false;
         List<NetworkHierarchy> networkHierarchies = findByRootId(rootId);
 
