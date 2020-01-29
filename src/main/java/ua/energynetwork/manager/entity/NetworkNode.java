@@ -31,6 +31,7 @@
 package ua.energynetwork.manager.entity;
 
 import lombok.*;
+import ua.energynetwork.manager.entity.collection.NetworkNodePointer;
 
 import java.util.HashMap;
 
