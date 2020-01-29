@@ -39,5 +39,19 @@ public enum NodeType {
     SUBSTATION,
     TRANSFORMER,
     FEEDER,
-    RESOURCE
+    RESOURCE;
+
+    private boolean allowChild;
+
+    static {
+        NETWORK.allowChild = true;
+        SUBSTATION.allowChild = true;
+        TRANSFORMER.allowChild = true;
+        FEEDER.allowChild = true;
+        RESOURCE.allowChild = false;
+    }
+
+    public boolean isAllowChild() {
+        return this.allowChild;
+    }
 }

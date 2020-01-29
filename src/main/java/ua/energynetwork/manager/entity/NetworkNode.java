@@ -52,6 +52,6 @@ public class NetworkNode implements NetworkNodePointer {
 
     @Override
     public boolean allowChild() {
-        return false;
+        return type.isAllowChild();
     }
 }
