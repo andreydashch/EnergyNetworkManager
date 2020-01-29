@@ -42,7 +42,8 @@ public interface Network<E> {
     boolean delChild(E child);
     boolean addChild(E child);
 
-    E goToRoot();
-    E goToChild(Long Id);
+    E getRoot();
+    E getPresent();
+    E goToNode(Long Id);
     HashSet<E> getChildren();
 }

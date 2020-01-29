@@ -78,14 +78,17 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
     }
 
     @Override
-    public E goToRoot() {
-        present = root;
+    public E getRoot() {
+        return root.getValue();
+    }
 
+    @Override
+    public E getPresent() {
         return present.getValue();
     }
 
     @Override
-    public E goToChild(Long Id) {
+    public E goToNode(Long Id) {
         Optional<Node<E>> child = present.findChild(Id);
 
         child.ifPresent(eNode -> present = eNode);
@@ -130,7 +133,7 @@ class Node<E extends NetworkNodePointer> {
     }
 
     private void delFromChildren(Node<E> child) {
-        parent.children.remove(child);
+        child.parent.children.remove(child);
     }
 
     Optional<Node<E>> findChild(Long id) {
