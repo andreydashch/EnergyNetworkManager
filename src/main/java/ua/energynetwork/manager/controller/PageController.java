@@ -69,6 +69,12 @@ public class PageController {
             return networkHierarchyService.findByRootId(id);
     }
 
+    /**
+     * I cant solve problem with mongoDB
+     *
+     * It do not transform and save my custom collection
+     * But it works without this dependence
+     */
     @RequestMapping("creat_network")
     public String  createNetworkPage(@RequestParam String requestParams){
         try {
