@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.energynetwork.manager.dto.NetworkNodeDTO;
 import ua.energynetwork.manager.model.entity.NetworkHierarchy;
-import ua.energynetwork.manager.model.entity.NetworkNode;
 import ua.energynetwork.manager.model.service.NetworkHierarchyService;
 
 import java.lang.reflect.Field;
@@ -62,11 +61,7 @@ public class PageController {
 
     @RequestMapping("networks_list")
     public List<NetworkHierarchy> SearchPage() {
-//        if (rootId == null) {
             return networkHierarchyService.findAll();
-//        } else {
-//            return networkHierarchyService.findByRootId(rootId);
-//        }
     }
 
     @RequestMapping("nodes_list")

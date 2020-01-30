@@ -61,10 +61,6 @@ public class NetworkHierarchy {
         network.create(root);
         rootId = root.getId();
     }
-    public Long getRootId() {
-        rootId = network.getRoot().getId();
-        return rootId;
-    }
 
     public void addNode(Long parentId, NetworkNode networkNode) {
         network.addChildToNode(parentId, networkNode);

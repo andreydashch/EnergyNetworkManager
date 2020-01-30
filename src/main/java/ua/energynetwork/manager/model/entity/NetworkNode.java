@@ -32,7 +32,6 @@ package ua.energynetwork.manager.model.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import ua.energynetwork.manager.model.collection.NetworkNodePointer;
 
 import java.util.HashMap;

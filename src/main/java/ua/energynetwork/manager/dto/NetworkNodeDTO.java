@@ -30,9 +30,7 @@
  */
 package ua.energynetwork.manager.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
-import ua.energynetwork.manager.model.entity.NodeType;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
