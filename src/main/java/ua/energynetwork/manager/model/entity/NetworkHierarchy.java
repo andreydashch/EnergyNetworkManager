@@ -32,9 +32,13 @@ package ua.energynetwork.manager.model.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.energynetwork.manager.model.collection.Network;
+import ua.energynetwork.manager.model.collection.NetworkTree;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,15 +52,18 @@ import java.util.Optional;
 @Builder
 public class NetworkHierarchy {
     @Id
-    private String id;
+    private Long rootId;
     private Network<NetworkNode> network;
 
     public NetworkHierarchy(NetworkNode root) {
-        network.create(root);
-    }
+        network = new NetworkTree<>();
 
+        network.create(root);
+        rootId = root.getId();
+    }
     public Long getRootId() {
-        return network.getRoot().getId();
+        rootId = network.getRoot().getId();
+        return rootId;
     }
 
     public void addNode(Long parentId, NetworkNode networkNode) {

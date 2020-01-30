@@ -31,6 +31,8 @@
 package ua.energynetwork.manager.model.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import ua.energynetwork.manager.model.collection.NetworkNodePointer;
 
 import java.util.HashMap;
@@ -44,6 +46,7 @@ import java.util.HashMap;
 @NoArgsConstructor
 @Builder
 public class NetworkNode implements NetworkNodePointer {
+    @Id
     private Long id;
     private NodeType type;
     private String name;

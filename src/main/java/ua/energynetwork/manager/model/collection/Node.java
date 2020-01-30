@@ -28,34 +28,54 @@
  * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ua.energynetwork.manager.dto;
+package ua.energynetwork.manager.model.collection;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.*;
-import ua.energynetwork.manager.model.entity.NodeType;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotEmpty;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Optional;
 
 /**
- * Date: 29.01.2020
+ * Date: 30.01.2020
  * User: Andrey Dashchyk
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class NetworkNodeDTO {
-    @NotEmpty
-    public String rootId;
-    @NotEmpty
-    public String parentId;
+@RequiredArgsConstructor
+@Getter
+class Node<E extends NetworkNodePointer> {
+    private final E value;
+    private final Node<E> parent;
+    private HashSet<Node<E>> children;
 
-    @NotEmpty
-    public String id;
-    @NotEmpty
-    public String networkType;
+    {
+        children = new HashSet<>();
+    }
 
-    public String name;
-    public String description;
-    public HashMap<String, String> params;
+    void addChild(Node<E> child) {
+        children.add(child);
+    }
+
+    boolean delChild(Long id) {
+        Optional<Node<E>> child = findChild(id);
+
+        child.ifPresent(node -> children.remove(node));
+
+        return child.isPresent();
+    }
+
+    Optional<Node<E>> findChild(Long id) {
+        Node<E> child = null;
+        boolean isSameNode;
+
+        for(Node<E> itr : children) {
+            isSameNode = itr.getValue().getId().equals(id);
+
+            if(isSameNode) {
+                child = itr;
+            }
+        }
+
+        return Optional.ofNullable(child);
+    }
 }

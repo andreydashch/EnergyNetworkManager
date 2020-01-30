@@ -86,9 +86,9 @@ public class NetworkHierarchyService {
         logger.info("ServiceRunAddNodeInNetworks");
         NetworkNode networkNode = createNetworkNode(networkNodeDTO);
 
-        List<NetworkHierarchy> networkHierarchies = findByRootId(networkNodeDTO.getRootId());
+        List<NetworkHierarchy> networkHierarchies = findByRootId(Long.valueOf(networkNodeDTO.getRootId()));
 
-        networkHierarchies.forEach(networkHierarchy -> networkHierarchy.addNode(networkNodeDTO.getParentId(), networkNode));
+        networkHierarchies.forEach(networkHierarchy -> networkHierarchy.addNode(Long.valueOf(networkNodeDTO.getParentId()), networkNode));
 
         energyNetworkManagerRepository.saveAll(networkHierarchies);
     }
@@ -96,8 +96,8 @@ public class NetworkHierarchyService {
     private NetworkNode createNetworkNode(NetworkNodeDTO networkNodeDTO) {
         logger.info("ServiceRunCreatNetworkNode");
         return NetworkNode.builder()
-                .id(networkNodeDTO.getId())
-                .type(networkNodeDTO.getType())
+                .id(Long.valueOf(networkNodeDTO.getId()))
+                .type(NodeType.valueOf(networkNodeDTO.getNetworkType()))
                 .name(networkNodeDTO.getName())
                 .description(networkNodeDTO.getDescription())
                 .params(networkNodeDTO.getParams())
@@ -107,9 +107,9 @@ public class NetworkHierarchyService {
     public void creatNetwork(NetworkNodeDTO rootDTO) {
         logger.info("ServiceRunCreatNetwork");
         NetworkNode root = createNetworkNode(rootDTO);
-
+        logger.info(root);
         NetworkHierarchy networkHierarchy = new NetworkHierarchy(root);
-
+        logger.info(networkHierarchy.getNetwork());
         energyNetworkManagerRepository.save(networkHierarchy);
     }
 
@@ -120,7 +120,7 @@ public class NetworkHierarchyService {
 
         networkHierarchyDTO.networkHierarchy.stream()
                 .skip(1)
-                .forEach(nodeDto -> networkHierarchy.addNode(nodeDto.getParentId(), createNetworkNode(nodeDto)));
+                .forEach(nodeDto -> networkHierarchy.addNode(Long.getLong(nodeDto.getParentId()), createNetworkNode(nodeDto)));
 
         energyNetworkManagerRepository.save(networkHierarchy);
     }

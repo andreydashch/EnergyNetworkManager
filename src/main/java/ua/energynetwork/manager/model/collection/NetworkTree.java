@@ -30,16 +30,17 @@
  */
 package ua.energynetwork.manager.model.collection;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Date: 28.01.2020
  * User: Andrey Dashchyk
  */
-public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
+@NoArgsConstructor
+public class NetworkTree<E extends NetworkNodePointer> implements Network<E>, Serializable {
     private Node<E> root;
     private Node<E> present;
 
@@ -154,41 +155,3 @@ public class NetworkTree<E extends NetworkNodePointer> implements Network<E>{
 }
 
 
-@RequiredArgsConstructor
-@Getter
-class Node<E extends NetworkNodePointer> {
-    private final E value;
-    private final Node<E> parent;
-    private HashSet<Node<E>> children;
-
-    {
-        children = new HashSet<>();
-    }
-
-    void addChild(Node<E> child) {
-        children.add(child);
-    }
-
-    boolean delChild(Long id) {
-        Optional<Node<E>> child = findChild(id);
-
-        child.ifPresent(node -> children.remove(node));
-
-        return child.isPresent();
-    }
-
-    Optional<Node<E>> findChild(Long id) {
-        Node<E> child = null;
-        boolean isSameNode;
-
-        for(Node<E> itr : children) {
-            isSameNode = itr.getValue().getId().equals(id);
-
-            if(isSameNode) {
-                child = itr;
-            }
-        }
-
-        return Optional.ofNullable(child);
-    }
-}

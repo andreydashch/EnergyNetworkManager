@@ -41,7 +41,7 @@ import java.util.List;
  * User: Andrey Dashchyk
  */
 @Repository
-public interface EnergyNetworkManagerRepository extends MongoRepository<NetworkHierarchy, String> {
+public interface EnergyNetworkManagerRepository extends MongoRepository<NetworkHierarchy, Long> {
 
     List<NetworkHierarchy> findByRootId(Long rootId);
 
